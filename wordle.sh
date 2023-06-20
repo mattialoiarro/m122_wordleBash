@@ -23,11 +23,25 @@ isLetterInWord(){
     fi
 }
 
-letter="a"
-word="apple"
+playWordle(){
+    local secretWord=$(getSecretWord)
+    local attempts=0
+    local guessedLetter=""
 
-if isLetterInWord "$letter" "$word"; then
-    echo "$letter is present in $word"
-else
-    echo "$letter is not present in $word"
-fi
+    while [[ $attempts -lt $maxAttempts ]]; do
+        echo "Attempt ($((attempts+1))/$maxAttempts):"
+        read -p "Enter a letter or a word: " guessed_input
+
+    if [[ $guessedInput == "$secretWord" ]]; then
+            echo "Congratulations! You guessed the word!"
+            echo "Secret word: $secretWord" >> "$result_file"
+            echo "Attempts: $((attempts+1))" >> "$result_file"
+            return
+        fi
+
+    if isLetterInWord "${guessedInput:0:1}" "$secretWord"; then
+         guessedLetters+="${guessedInput:0:1}"
+    
+}
+
+
